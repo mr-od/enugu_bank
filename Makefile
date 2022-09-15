@@ -5,7 +5,7 @@ createdb:
 	docker exec -it Bank_of_Enugu createdb --username=root --owner=root bank_of_enugu
 	
 initdb:
-	migrate create -ext sql -dir ./db/migration -seq init_schema
+	migrate create -ext sql -dir ./db/migration -seq add_users_table
 
 migrateup:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5434/bank_of_enugu?sslmode=disable" -verbose up
@@ -32,6 +32,6 @@ server:
 	go run main.go
 
 mock:
-	mockgen -package mockdb -destination db/mock/store.go github.com/oddinnovate/Bank_of_Enugu/db/sqlc Store
+	mockgen -package mockdb -destination db/mock/store.go github.com/oddinnovate/bank_of_enugu/db/sqlc Store
 
 .PHONY: postgres createdb dropdb initdb migrateup migratedown test server mock
