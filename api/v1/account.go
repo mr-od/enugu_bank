@@ -10,8 +10,7 @@ import (
 )
 
 type createAccountRequest struct {
-	Owner string `json:"owner" binding:"required"`
-	// Balance int64 `json:"balance"`
+	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency" binding:"required,currency"`
 }
 

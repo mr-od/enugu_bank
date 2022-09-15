@@ -1,11 +1,11 @@
 postgres:
-	docker run --name Bank_of_Enugu -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5434:5432 -d postgres:13-
+	docker run --name Bank_of_Enugu -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5434:5432 -d postgres:13-alpine
 	
 createdb:
 	docker exec -it Bank_of_Enugu createdb --username=root --owner=root bank_of_enugu
 	
 initdb:
-	migrate create -ext sql -dir ./db/migration -seq add_users_table
+	migrate create -ext sql -dir ./db/migration -seq initdb
 
 migrateup:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5434/bank_of_enugu?sslmode=disable" -verbose up
