@@ -1,6 +1,6 @@
 postgres:
-	docker run --name Bank_of_Enugu -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5434:5432 -d postgres:13-alpine
-	
+	docker run --name postgres13 --network boe_network -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:13-alpine
+
 createdb:
 	docker exec -it Bank_of_Enugu createdb --username=root --owner=root bank_of_enugu
 	
