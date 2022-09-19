@@ -1,10 +1,13 @@
 DB_URL=postgresql://root:secret@localhost:5434/bank_of_enugu?sslmode=disable
 
+network:
+	docker network create boe_network
+
 postgres:
-	docker run --name postgres13 --network boe_network -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:13-alpine
+	docker run --name postgres13 --network boe_network -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -p 5434:5432 -d postgres:13-alpine
 
 createdb:
-	docker exec -it Bank_of_Enugu createdb --username=root --owner=root bank_of_enugu
+	docker exec -it postgres13 createdb --username=root --owner=root bank_of_enugu
 	
 initdb:
 	migrate create -ext sql -dir ./db/migration -seq initdb
@@ -42,4 +45,4 @@ db_schema:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/oddinnovate/bank_of_enugu/db/sqlc Store
 
-.PHONY: postgres createdb dropdb initdb migrateup migratedown test server mock db_docs db_schema
+.PHONY: postgres createdb dropdb initdb migrateup migratedown test server mock db_docs db_schema network
